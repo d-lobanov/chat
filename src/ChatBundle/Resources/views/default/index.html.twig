@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {% stylesheets
+    'assets/vendor/bootstrap/dist/css/bootstrap.min.css'
+    '@ChatBundle/Resources/public/css/chat.css'
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+    'assets/vendor/jquery/dist/jquery.js'
+    'assets/vendor/bootstrap/dist/js/bootstrap.js'
+    '@ChatBundle/Resources/public/js/chat.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        {% include 'ChatBundle:Default:header.html.twig' %}
+        <div class="row">
+            {# include 'default/room.html.twig' #}
+            {% include 'ChatBundle:Default:dialog.html.twig' %}
+         </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+services:
+    sonata.admin.user:
+        class: ChatBundle\Admin\UserAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: "Admin"
+              label: "User"
+        arguments:
+            - ~
+            - ChatBundle\Entity\User
+            - ~
+        calls:
+            - [ setTranslationDomain, [ChatBundle]]
+
+    sonata.admin.room:
+        class: ChatBundle\Admin\RoomAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: "Admin"
+              label: "Room"
+        arguments:
+            - ~
+            - ChatBundle\Entity\Room
+            - ~
+        calls:
+            - [ setTranslationDomain, [ChatBundle]]
+            - [ addChild, [@sonata.admin.user]]

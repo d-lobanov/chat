@@ -1,0 +1,27 @@
+<div class="message-wrap col-lg-8">
+
+    <div class="msg-wrap" id="dialog-chat">
+
+        {% for message in messages %}
+            {% include 'ChatBundle:Default:message.html.twig' %}
+        {% endfor %}
+
+        {#
+        <div class="alert alert-info msg-date">
+            <strong>Today</strong>
+        </div>
+        #}
+
+    </div>
+
+    <form name="publish">
+        <div class="send-wrap ">
+            <textarea name="message" class="form-control send-message" rows="3" placeholder="Write a reply..."></textarea>
+        </div>
+        <div class="btn-panel">
+            {#<a href="#" class=" col-lg-12 text-right btn send-message-btn pull-right" role="button"><i class="fa fa-plus"></i> Send Message</a>#}
+            <input type="submit" name="send" class="col-lg-12" value="Send" >
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,7 @@
+<div class="media msg">
+    <div class="media-body">
+        <small class="pull-right time"> {{ time | default('0') | date('H:i:s') }} </small>
+        <h5 class="media-heading"> {{ author | default('unknow') }} </h5>
+        <small class="col-lg-10"> {{ text | default('...') }} </small>
+    </div>
+</div>
