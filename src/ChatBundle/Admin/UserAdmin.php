@@ -48,7 +48,6 @@ class UserAdmin extends Admin
     {
         $datagridMapper
             ->add('username')
-            ->add('email')
         ;
     }
 
@@ -57,8 +56,6 @@ class UserAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('username')
-            ->add('email')
-            ->add('roles')
         ;
     }
 

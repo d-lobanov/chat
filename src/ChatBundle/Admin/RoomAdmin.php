@@ -22,6 +22,12 @@ class RoomAdmin extends Admin
                     'required' => false
                 ))
             ->end()
+			->with('Moderator')
+			->add('moderators', 'sonata_type_model', array(
+				'multiple' => true,
+				'required' => false
+			))
+			->end()
         ;
     }
 
@@ -30,6 +36,8 @@ class RoomAdmin extends Admin
     {
         $datagridMapper
             ->add('name')
+			->add('users')
+			->add('moderators')
         ;
     }
 
@@ -38,6 +46,8 @@ class RoomAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('name')
+			->addIdentifier('users')
+			->addIdentifier('moderators')
         ;
     }
 }

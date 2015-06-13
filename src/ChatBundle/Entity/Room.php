@@ -32,6 +32,15 @@ class Room {
      */
     protected $users;
 
+	/**
+	 * @ORM\ManyToMany(targetEntity="User")
+	 * @ORM\JoinTable(name="room_moderator",
+	 *      joinColumns={@ORM\JoinColumn(name="room_id", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+	 *      )
+	 */
+	protected $moderators;
+
     /**
      * Constructor
      */
@@ -104,5 +113,38 @@ class Room {
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add moderators
+     *
+     * @param \ChatBundle\Entity\User $moderators
+     * @return Room
+     */
+    public function addModerator(\ChatBundle\Entity\User $moderators)
+    {
+        $this->moderators[] = $moderators;
+
+        return $this;
+    }
+
+    /**
+     * Remove moderators
+     *
+     * @param \ChatBundle\Entity\User $moderators
+     */
+    public function removeModerator(\ChatBundle\Entity\User $moderators)
+    {
+        $this->moderators->removeElement($moderators);
+    }
+
+    /**
+     * Get moderators
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getModerators()
+    {
+        return $this->moderators;
     }
 }
