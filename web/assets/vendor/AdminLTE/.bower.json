@@ -30,11 +30,11 @@
     "composer.json",
     "documentation"
   ],
-  "_release": "13f00afa61",
+  "_release": "bf2f7223aa",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "13f00afa61f6978d26d37f10bbde3e48f911b2a9"
+    "commit": "bf2f7223aadcda8227902e889fd313630b10bfa5"
   },
   "_source": "https://github.com/almasaeed2010/AdminLTE.git",
   "_target": "master",
