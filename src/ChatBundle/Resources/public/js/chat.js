@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://192.168.56.101:8080");
+var socket = new WebSocket("ws://chat.dev/websocket");
 
 socket.onmessage = function(event) {
     var incomingMessage = event.data;
@@ -11,7 +11,6 @@ socket.onopen = function() {
 };
 
 socket.onerror = function(error){
-    alert('Error');
     console.log(error.message);
 }
 
