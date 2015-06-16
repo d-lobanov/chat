@@ -11,12 +11,12 @@ class UserAdminManager extends Model\ModelManager
 
 	public function setUserManager($manager)
 	{
-		$this->entityManager = $manager;
+		$this->userManager = $manager;
 	}
 
 	public function getUserManager()
 	{
-		return $this->entityManager;
+		return $this->userManager;
 	}
 
 	public function create($object)
@@ -39,11 +39,10 @@ class UserAdminManager extends Model\ModelManager
 		$username   = $object->getUsername();
 		$password   = $object->getPassword();
 
-		$user = $this->getUserManager()->createUser();
+        $criteria = array('id' => $object->getId());
+        $user = $this->getUserManager()->findUserBy($criteria);
 		$user->setUsername($username);
-		if(!empty($password)){
-			$user->setPlainPassword($password);
-		}
+        $user->setPlainPassword($password);
 		$this->getUserManager()->updateUser($user);
 
 		return $user;
