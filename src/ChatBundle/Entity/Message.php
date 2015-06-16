@@ -151,4 +151,27 @@ class Message {
     {
         return $this->room;
     }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Message
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
 }

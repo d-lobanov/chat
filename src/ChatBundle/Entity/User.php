@@ -28,4 +28,90 @@ class User extends BaseUser
         // your own logic
     }
 
+	/**
+	 * @ORM\ManyToMany(targetEntity="Room", mappedBy="users")
+	 **/
+	protected $rooms;
+
+	/**
+	 * @ORM\ManyToMany(targetEntity="Room", mappedBy="moderators")
+	 **/
+	protected $roomsModerator;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add rooms
+     *
+     * @param \ChatBundle\Entity\Room $rooms
+     * @return User
+     */
+    public function addRoom(\ChatBundle\Entity\Room $rooms)
+    {
+        $this->rooms[] = $rooms;
+
+        return $this;
+    }
+
+    /**
+     * Remove rooms
+     *
+     * @param \ChatBundle\Entity\Room $rooms
+     */
+    public function removeRoom(\ChatBundle\Entity\Room $rooms)
+    {
+        $this->rooms->removeElement($rooms);
+    }
+
+    /**
+     * Get rooms
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRooms()
+    {
+        return $this->rooms;
+    }
+
+    /**
+     * Add roomsModerator
+     *
+     * @param \ChatBundle\Entity\Room $roomsModerator
+     * @return User
+     */
+    public function addRoomsModerator(\ChatBundle\Entity\Room $roomsModerator)
+    {
+        $this->roomsModerator[] = $roomsModerator;
+
+        return $this;
+    }
+
+    /**
+     * Remove roomsModerator
+     *
+     * @param \ChatBundle\Entity\Room $roomsModerator
+     */
+    public function removeRoomsModerator(\ChatBundle\Entity\Room $roomsModerator)
+    {
+        $this->roomsModerator->removeElement($roomsModerator);
+    }
+
+    /**
+     * Get roomsModerator
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRoomsModerator()
+    {
+        return $this->roomsModerator;
+    }
 }

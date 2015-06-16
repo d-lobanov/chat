@@ -24,7 +24,7 @@ class Room {
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="rooms")
      * @ORM\JoinTable(name="room_user",
      *      joinColumns={@ORM\JoinColumn(name="room_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
@@ -33,7 +33,7 @@ class Room {
     protected $users;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="User")
+	 * @ORM\ManyToMany(targetEntity="User", inversedBy="roomsModerator")
 	 * @ORM\JoinTable(name="room_moderator",
 	 *      joinColumns={@ORM\JoinColumn(name="room_id", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
@@ -147,4 +147,9 @@ class Room {
     {
         return $this->moderators;
     }
+
+	public function __toString()
+	{
+		return (string) $this->getName();
+	}
 }
