@@ -8,6 +8,13 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    session.db_options:
+        db_table:    sessions
+        db_id_col:   sess_id
+        db_data_col: sess_data
+        db_time_col: sess_time
+        db_username: "%database_name%"
+        db_password: "%database_password%"
 
 framework:
     #esi:             ~
