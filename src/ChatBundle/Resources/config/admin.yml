@@ -1,4 +1,11 @@
 services:
+    chat.admin.user_manager:
+        class: ChatBundle\Entity\UserAdminManager
+        arguments:
+            - @doctrine
+        calls:
+            - [ setUserManager, [@fos_user.user_manager]]
+
     sonata.admin.user:
         class: ChatBundle\Admin\UserAdmin
         tags:
@@ -12,6 +19,7 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [ChatBundle]]
+            - [ setModelManager, [@chat.admin.user_manager]]
 
     sonata.admin.room:
         class: ChatBundle\Admin\RoomAdmin
@@ -26,4 +34,3 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [ChatBundle]]
-            - [ addChild, [@sonata.admin.user]]
