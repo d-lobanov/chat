@@ -21,6 +21,31 @@ services:
         public:    false
         arguments: [@pdo, %session.db_options%]
 
-    chat.user_manipulator:
-        class:    ChatBundle\Util\UserManipulator
-        arguments:  [@fos_user.user_manager]
+    chat.component.message:
+        class:    ChatBundle\Component\MessageComponent
+        calls:
+            - [ setContainer, [@service_container] ]
+
+    chat.handler:
+        class:    ChatBundle\Handler\ChatHandler
+        arguments: [ @chat.component.message, @chat.logger ]
+        calls:
+            - [setDoctrine, [@doctrine]]
+
+    chat.session.provider:
+        class:     Ratchet\Session\SessionProvider
+        arguments:  [@chat.handler, @session.handler]
+
+    chat.message.manager:
+        class:    ChatBundle\Entity\MessageManager
+        arguments:  [ @doctrine.orm.entity_manager ]
+
+    chat.logger:
+        class:     Symfony\Bridge\Monolog\Logger
+        arguments: [app]
+        calls:
+            - [pushHandler, [@chat.logger_handler]]
+
+    chat.logger_handler:
+        class:     Monolog\Handler\StreamHandler
+        arguments: [%kernel.logs_dir%/%kernel.environment%.chat.log, 200]
