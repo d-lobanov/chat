@@ -5,74 +5,153 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use ChatBundle\Helper\MessageHelper;
+use ChatBundle\Component;
 
-class ChatHandler extends ContainerAware implements MessageComponentInterface
+/**
+ * Class ChatHandler
+ * @package ChatBundle\Handler
+ */
+class ChatHandler implements MessageComponentInterface
 {
 
-	protected $clients;
+    protected $rooms;
+    protected $logger;
+    /**
+     * @var Component\MessageComponent
+     */
+    protected $messageComponent;
 
-	public function __construct()
+    /**
+     * @var Registry
+     */
+    protected $doctrine;
+
+    /**
+     * @param Component\MessageComponent $messageComponent
+     */
+    public function __construct(Component\MessageComponent $messageComponent, $logger)
 	{
-		$this->clients = new \SplObjectStorage;
+        $this->messageComponent = $messageComponent;
+        $this->logger = $logger;
 	}
 
-	public function onOpen(ConnectionInterface $conn)
-	{
-//        $session = $this->container->get('session.handler');
-//        var_dump($session->read('9k55bui7a3lmqaofi8t13fn366'));
-        //var_dump($conn->Session->all());
-        //die();
-
-		$this->clients->attach($conn);
-
-		echo "New connection! ({$conn->resourceId})\n";
-	}
-
-	public function onMessage(ConnectionInterface $conn, $message)
+    /**
+     * @param $doctrine
+     */
+    public function setDoctrine($doctrine)
     {
-        $security_context = unserialize($conn->Session->get('_security_main'));
-        //$username = $security_context->getUsername();
-        $coockie = $conn->WebSocket;
-        //var_dump($conn->WebSocket->request->getCookies());
+        $this->doctrine = $doctrine;
+    }
 
-		$numRecv = count($this->clients) - 1;
-		echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-			, $conn->resourceId, $message, $numRecv, $numRecv == 1 ? '' : 's');
+    /**
+     * @return Registry
+     */
+    public function getDoctrine()
+    {
+        return $this->doctrine;
+    }
 
-		$params = array(
-			'author' => $conn->resourceId,
-			'time' => time(),
-			'text' => $message
-		);
-		$this->sendResponse($params);
-	}
-
-	public function sendResponse($params)
+    /**
+     * @param ConnectionInterface $conn
+     */
+    public function onOpen(ConnectionInterface $conn)
 	{
-		foreach ($this->clients as $client) {
-			$response = $this->container->get('templating')->renderResponse(
-				$view = 'ChatBundle:Default:message.html.twig',
-				$params,
-				$response = null
-			);
+        if(is_null($user = $this->getUser($conn))){
+            $conn->close();
+            return;
+        }
 
-			$content = $response->getContent();
-			$client->send($content);
-		}
+        $userId = $user->getId();
+        $repository = $this->doctrine->getRepository('ChatBundle:User');
+        $rooms = $repository->getRoomById($userId);
+
+        foreach($rooms as $roomId => $name){
+            $this->rooms[$roomId] = array($conn->resourceId => $conn);
+        }
+
+		$this->logger->addInfo("Connection: {$conn->resourceId}, username: {$user->getUsername()}");
 	}
 
-	public function onClose(ConnectionInterface $conn)
-	{
-		$this->clients->detach($conn);
+    /**
+     * @param ConnectionInterface $conn
+     * @param string $json
+     */
+    public function onMessage(ConnectionInterface $conn, $json)
+    {
+        $data = json_decode($json, true);
 
-		echo "Connection {$conn->resourceId} has disconnected\n";
+        if(array_key_exists('event', $data) && array_key_exists('info', $data)){
+            $info = $data['info'];
+            $info['userId'] = $this->getUser($conn)->getId();
+
+            $response = $this->messageComponent->onEvent($data['event'], $info);
+            $this->sendResponse($conn, $response);
+        }
+
+        return;
 	}
 
-	public function onError(ConnectionInterface $conn, \Exception $e)
-	{
-		echo "An error has occurred: {$e->getMessage()}\n";
+    /**
+     * @param ConnectionInterface $from
+     */
+    public function onClose(ConnectionInterface $from)
+    {
+        foreach($this->rooms as $roomId => &$connections){
+            $key = array_search($from, $connections);
+            unset($connections[$key]);
 
-		$conn->close();
-	}
+            if(empty($this->rooms[$roomId])){
+                unset($this->rooms[$roomId]);
+            }
+        }
+        unset($connections);
+
+        $this->logger->addInfo("Connection {$from->resourceId} has disconnected");
+    }
+
+    /**
+     * @param ConnectionInterface $conn
+     * @param \Exception $e
+     */
+    public function onError(ConnectionInterface $conn, \Exception $e)
+    {
+        $this->logger->addInfo("An error has occurred: {$e->getMessage()}");
+        $conn->close();
+    }
+
+    /**
+     * @param ConnectionInterface $from
+     * @param MessageHelper\Response $response
+     */
+    protected function sendResponse(ConnectionInterface $from, MessageHelper\Response $response)
+    {
+        $json = json_encode($response->getJsonData());
+
+        $roomId = $response->header->roomId;
+        $room = $this->rooms[$roomId];
+
+        foreach($room as $connId => $conn){
+            if($conn != $from){
+                $conn->send($json);
+            }
+        }
+        return;
+    }
+
+    /**
+     * @param ConnectionInterface $conn
+     * @return null
+     */
+    protected function getUser(ConnectionInterface $conn)
+    {
+        $securityContext = unserialize($conn->Session->get('_security_main'));
+        if(!empty($securityContext) && method_exists($securityContext, 'getUser')){
+            return $securityContext->getUser();
+        }
+
+        return null;
+    }
 
 }
