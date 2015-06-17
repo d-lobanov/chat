@@ -18,8 +18,6 @@ class DefaultController extends Controller
         $response = new Response('Test');
         $response->headers->setCookie(new Cookie('test', '123'));
         return $response;
-
-        return $this->render('default/index.html.twig');
     }
 
     /**
@@ -28,7 +26,7 @@ class DefaultController extends Controller
     public function roomAction()
     {
         $messages = [];
-        $rooms = [];
+        $rooms = $this->getUser()->getRoomsAsArray();
 
         return $this->render('ChatBundle:Default:index.html.twig', array(
             'messages' => $messages,
