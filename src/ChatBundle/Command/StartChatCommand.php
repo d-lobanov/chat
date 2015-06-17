@@ -3,15 +3,12 @@
 namespace ChatBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use ChatBundle\Handler\ChatHandler as ChatHandler;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
-use Ratchet\Session\SessionProvider;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
 class StartChatCommand extends ContainerAwareCommand
@@ -35,12 +32,7 @@ class StartChatCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $chatListener = new ChatHandler();
-        $chatListener->setContainer($this->getContainer());
-
-        $sessionHandler = $this->getContainer()->get('session.handler');
-        $sessionProvider = new SessionProvider($chatListener, $sessionHandler);
-
+        $sessionProvider = $this->getContainer()->get('chat.session.provider');
 
         $server = IoServer::factory(
             new HttpServer(
