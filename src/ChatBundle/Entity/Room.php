@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ChatBundle\Entity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ChatBundle\Entity\RoomRepository")
  * @ORM\Table(name="room")
  */
 class Room {
@@ -152,4 +152,5 @@ class Room {
 	{
 		return (string) $this->getName();
 	}
+
 }

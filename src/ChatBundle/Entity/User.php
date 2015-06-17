@@ -114,4 +114,19 @@ class User extends BaseUser
     {
         return $this->roomsModerator;
     }
+
+    public function getRoomsAsArray()
+    {
+        $result = array();
+        foreach($this->rooms as $room){
+            $result[$room->getId()] = $room->getName();
+        }
+
+        return $result;
+    }
+
+    public function hasRoom(Room $room)
+    {
+        return in_array($room, $this->rooms);
+    }
 }

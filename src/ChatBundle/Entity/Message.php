@@ -174,4 +174,17 @@ class Message {
     {
         return $this->created;
     }
+
+    public function getInfo()
+    {
+        $info = array(
+            'userName' => $this->user->getUsername(),
+            'time' => $this->created,
+            'roomId' => $this->room->getId(),
+            'id' => $this->id,
+        );
+
+        return $info;
+    }
+
 }
