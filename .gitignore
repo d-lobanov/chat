@@ -4,6 +4,9 @@
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 
+# Entity ~
+/src/ChatBundle/Entity/*~
+
 # Cache and logs (Symfony3)
 /var/cache/*
 /var/logs/*
