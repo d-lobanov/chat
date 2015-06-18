@@ -6,12 +6,12 @@ services:
 
     chat.listener:
         class:    ChatBundle\EventListener\ChatListener
-        arguments: [ @chat.component.message, @chat.logger ]
+        arguments: [ @chat.component.message ]
         calls:
-            - [setDoctrine, [@doctrine]]
+            - [ setContainer, [@service_container] ]
 
     chat.session.provider:
-        class:     Ratchet\Session\SessionProvider
+        class:     ChatBundle\Session\SessionProvider
         arguments:  [@chat.listener, @session.handler]
 
     chat.message.manager:
