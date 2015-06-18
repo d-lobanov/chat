@@ -13,44 +13,21 @@ use ChatBundle\Service\MessageService;
  * Class ChatListener
  * @package ChatBundle\EventListener
  */
-class ChatListener implements MessageComponentInterface
+class ChatListener extends ContainerAware implements MessageComponentInterface
 {
 
     protected $rooms;
-    protected $logger;
     /**
      * @var MessageService
      */
     protected $messageComponent;
 
     /**
-     * @var Registry
-     */
-    protected $doctrine;
-
-    /**
      * @param MessageService $messageComponent
      */
-    public function __construct(MessageService $messageComponent, $logger)
+    public function __construct(MessageService $messageComponent)
     {
         $this->messageComponent = $messageComponent;
-        $this->logger = $logger;
-    }
-
-    /**
-     * @param $doctrine
-     */
-    public function setDoctrine($doctrine)
-    {
-        $this->doctrine = $doctrine;
-    }
-
-    /**
-     * @return Registry
-     */
-    public function getDoctrine()
-    {
-        return $this->doctrine;
     }
 
     /**
@@ -64,14 +41,14 @@ class ChatListener implements MessageComponentInterface
         }
 
         $userId = $user->getId();
-        $repository = $this->doctrine->getRepository('ChatBundle:User');
+        $repository = $this->getDoctrine()->getRepository('ChatBundle:User');
         $rooms = $repository->getRoomById($userId);
 
         foreach ($rooms as $roomId => $name) {
-            $this->rooms[$roomId] = array($conn->resourceId => $conn);
+            $this->rooms[$roomId][$conn->resourceId] = $conn;
         }
 
-        $this->logger->addInfo("Connection: {$conn->resourceId}, username: {$user->getUsername()}");
+        $this->getLogger()->addInfo("Connection: {$conn->resourceId}, username: {$user->getUsername()}");
     }
 
     /**
@@ -108,7 +85,7 @@ class ChatListener implements MessageComponentInterface
         }
         unset($connections);
 
-        $this->logger->addInfo("Connection {$from->resourceId} has disconnected");
+        $this->getLogger()->addInfo("Connection {$from->resourceId} has disconnected");
     }
 
     /**
@@ -117,7 +94,7 @@ class ChatListener implements MessageComponentInterface
      */
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        $this->logger->addInfo("An error has occurred: {$e->getMessage()}");
+        $this->getLogger()->addInfo("An error has occurred: {$e->getMessage()}");
         $conn->close();
     }
 
@@ -137,13 +114,11 @@ class ChatListener implements MessageComponentInterface
             $room = $this->rooms[$roomId];
 
             foreach ($room as $connId => $conn) {
-                if ($conn != $from) {
-                    $conn->send($json);
-                }
+                $conn->send($json);
             }
         }
 
-        $this->logger->addInfo("Event: {$event}, from: {$from->resourceId}");
+        $this->getLogger()->addInfo("Event: {$event}, from: {$from->resourceId}");
 
         return;
     }
@@ -160,5 +135,21 @@ class ChatListener implements MessageComponentInterface
         }
 
         return null;
+    }
+
+    /**
+     * @return object
+     */
+    protected function getLogger()
+    {
+        return $this->container->get('logger');
+    }
+
+    /**
+     * @return object
+     */
+    protected function getDoctrine()
+    {
+        return $this->container->get('doctrine');
     }
 }
