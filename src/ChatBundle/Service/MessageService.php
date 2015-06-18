@@ -18,6 +18,7 @@ class MessageService extends ContainerAware
     protected function getRepository($name)
     {
         $doctrine = $this->container->get('doctrine');
+
         return $doctrine->getRepository($name);
     }
 
@@ -31,8 +32,8 @@ class MessageService extends ContainerAware
         $this->roomId = $info['roomId'];
         $this->userId = $info['userId'];
 
-        $method = 'do'. $event;
-        if($this->checkAccess($event) && method_exists($this, $method)){
+        $method = 'do'.$event;
+        if ($this->checkAccess($event) && method_exists($this, $method)) {
             return $this->{$method}($info);
         }
 
@@ -66,13 +67,13 @@ class MessageService extends ContainerAware
      */
     protected function doDelete($info)
     {
-        if(array_key_exists('messId', $info) == false){
+        if (array_key_exists('messId', $info) == false) {
             return $this->responseError('Invalid data');
         }
         $messId = $info['messId'];
 
         $messageManager = $this->container->get('chat.message.manager');
-        if($messageManager->delete($messId)){
+        if ($messageManager->delete($messId)) {
             return $this->responseDelete($info);
         }
 
@@ -85,16 +86,16 @@ class MessageService extends ContainerAware
      */
     protected function doMessage($info)
     {
-        if(array_key_exists('text', $info) == false){
+        if (array_key_exists('text', $info) == false) {
             return $this->responseError('Invalid data');
         }
         $text = $info['text'];
         $messageManager = $this->container->get('chat.message.manager');
 
-        try{
+        try {
             $message = $messageManager->save($this->userId, $this->roomId, $text);
             $info['messInfo'] = $message->getInfo();
-        } catch(Exception $e){
+        } catch (Exception $e) {
             return $this->responseError('Message save error');
         }
 
@@ -107,10 +108,11 @@ class MessageService extends ContainerAware
      */
     protected function responseError($info = array())
     {
-        if(!is_array($info)){
+        if (!is_array($info)) {
             $info = array('message' => $info);
         }
         $header = new MessageHelper\Header('error', $this->roomId, $this->userId);
+
         return new MessageHelper\Response($header, $info);
     }
 
@@ -128,6 +130,7 @@ class MessageService extends ContainerAware
         $info['messTemplate'] = $template->getContent();
 
         $header = new MessageHelper\Header('message', $this->roomId, $this->userId);
+
         return new MessageHelper\Response($header, $info);
     }
 
@@ -135,10 +138,10 @@ class MessageService extends ContainerAware
      * @param $info
      * @return MessageHelper\Response
      */
-    protected  function responseDelete($info)
+    protected function responseDelete($info)
     {
         $header = new MessageHelper\Header('delete', $this->roomId, $this->userId);
+
         return new MessageHelper\Response($header, $info);
     }
-
 }

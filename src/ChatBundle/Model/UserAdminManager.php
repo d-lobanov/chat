@@ -4,48 +4,68 @@ namespace ChatBundle\Model;
 
 use Sonata\DoctrineORMAdminBundle\Model;
 
+/**
+ * Class UserAdminManager
+ * @package ChatBundle\Model
+ */
 class UserAdminManager extends Model\ModelManager
 {
 
-	protected $userManager;
+    /**
+     * @var
+     */
+    protected $userManager;
 
-	public function setUserManager($manager)
-	{
-		$this->userManager = $manager;
-	}
+    /**
+     * @param $manager
+     */
+    public function setUserManager($manager)
+    {
+        $this->userManager = $manager;
+    }
 
-	public function getUserManager()
-	{
-		return $this->userManager;
-	}
+    /**
+     * @return mixed
+     */
+    public function getUserManager()
+    {
+        return $this->userManager;
+    }
 
-	public function create($object)
-	{
-		$username   = $object->getUsername();
-		$password   = $object->getPassword();
+    /**
+     * @param $object
+     * @return mixed
+     */
+    public function create($object)
+    {
+        $username   = $object->getUsername();
+        $password   = $object->getPassword();
 
-		$user = $this->getUserManager()->createUser();
-		$user->setUsername($username);
-		$user->setPlainPassword($password);
-		$user->setEnabled(true);
-		$user->setSuperAdmin(false);
-		$this->getUserManager()->updateUser($user);
+        $user = $this->getUserManager()->createUser();
+        $user->setUsername($username);
+        $user->setPlainPassword($password);
+        $user->setEnabled(true);
+        $user->setSuperAdmin(false);
+        $this->getUserManager()->updateUser($user);
 
         return $user;
-	}
+    }
 
-	public function update($object)
-	{
-		$username   = $object->getUsername();
-		$password   = $object->getPassword();
+    /**
+     * @param $object
+     * @return mixed
+     */
+    public function update($object)
+    {
+        $username   = $object->getUsername();
+        $password   = $object->getPassword();
 
         $criteria = array('id' => $object->getId());
         $user = $this->getUserManager()->findUserBy($criteria);
-		$user->setUsername($username);
+        $user->setUsername($username);
         $user->setPlainPassword($password);
-		$this->getUserManager()->updateUser($user);
+        $this->getUserManager()->updateUser($user);
 
-		return $user;
-	}
-
+        return $user;
+    }
 }

@@ -9,7 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="message")
  */
-class Message {
+class Message
+{
 
     /**
      * @ORM\Column(type="integer")
@@ -53,7 +54,7 @@ class Message {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -76,7 +77,7 @@ class Message {
     /**
      * Get text
      *
-     * @return string 
+     * @return string
      */
     public function getText()
     {
@@ -109,7 +110,7 @@ class Message {
     /**
      * Get user
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUser()
     {
@@ -145,7 +146,7 @@ class Message {
     /**
      * Get room
      *
-     * @return Room 
+     * @return Room
      */
     public function getRoom()
     {
@@ -168,7 +169,7 @@ class Message {
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -186,5 +187,4 @@ class Message {
 
         return $info;
     }
-
 }

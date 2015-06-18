@@ -9,7 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="ChatBundle\Entity\Repository\RoomRepository")
  * @ORM\Table(name="room")
  */
-class Room {
+class Room
+{
 
     /**
      * @ORM\Column(type="integer")
@@ -32,14 +33,14 @@ class Room {
      */
     protected $users;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="User", inversedBy="roomsModerator")
-	 * @ORM\JoinTable(name="room_moderator",
-	 *      joinColumns={@ORM\JoinColumn(name="room_id", referencedColumnName="id")},
-	 *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-	 *      )
-	 */
-	protected $moderators;
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="roomsModerator")
+     * @ORM\JoinTable(name="room_moderator",
+     *      joinColumns={@ORM\JoinColumn(name="room_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $moderators;
 
     /**
      * Constructor
@@ -52,7 +53,7 @@ class Room {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,7 +76,7 @@ class Room {
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -108,7 +109,7 @@ class Room {
     /**
      * Get users
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUsers()
     {
@@ -141,16 +142,15 @@ class Room {
     /**
      * Get moderators
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getModerators()
     {
         return $this->moderators;
     }
 
-	public function __toString()
-	{
-		return (string) $this->getName();
-	}
-
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
 }

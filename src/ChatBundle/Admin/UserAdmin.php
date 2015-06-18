@@ -18,10 +18,10 @@ class UserAdmin extends Admin
         return $em->getRepository($this->getClass());
     }
 
-	/**
-	 * Fields to be shown on create/edit forms
-	 * @param FormMapper $formMapper
-	 */
+    /**
+     * Fields to be shown on create/edit forms
+     * @param FormMapper $formMapper
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
 
@@ -30,38 +30,37 @@ class UserAdmin extends Admin
             ->add('password', 'text', array(
                     'required' => true,
                     'data' => ''
-			))
+            ))
         ;
     }
 
-	/**
-	 * Fields to be shown on filter forms
-	 * @param DatagridMapper $datagridMapper
-	 */
+    /**
+     * Fields to be shown on filter forms
+     * @param DatagridMapper $datagridMapper
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('username')
             ->add('rooms', null, array(
-				'field_name' => 'Included in'
-			))
-			->add('roomsModerator', null, array(
-				'field_name' => 'Moderator in'
-			))
+                'field_name' => 'Included in'
+            ))
+            ->add('roomsModerator', null, array(
+                'field_name' => 'Moderator in'
+            ))
         ;
     }
 
-	/**
-	 * Fields to be shown on lists
-	 * @param ListMapper $listMapper
-	 */
+    /**
+     * Fields to be shown on lists
+     * @param ListMapper $listMapper
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('username')
-			->addIdentifier('rooms')
-			->addIdentifier('roomsModerator')
+            ->addIdentifier('rooms')
+            ->addIdentifier('roomsModerator')
         ;
     }
-
 }

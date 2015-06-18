@@ -7,6 +7,9 @@ use ChatBundle\Entity\Message;
 
 class MessageManager
 {
+    /**
+     * @param ObjectManager $em
+     */
     public function __construct(ObjectManager $em)
     {
         $this->em = $em;
@@ -36,18 +39,17 @@ class MessageManager
     }
 
     /**
-     * @param $messageId
+     * @param int $messageId
      * @return bool
      */
     public function delete($messageId)
     {
         $message = $this->em->find('ChatBundle:Message', $messageId);
-        if(!is_null($message)){
+        if (!is_null($message)) {
             $this->em->remove($message);
             $this->em->flush();
             return true;
         }
         return false;
     }
-
 }

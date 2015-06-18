@@ -58,7 +58,7 @@ class ChatListener implements MessageComponentInterface
      */
     public function onOpen(ConnectionInterface $conn)
     {
-        if(is_null($user = $this->getUser($conn))){
+        if (is_null($user = $this->getUser($conn))) {
             $conn->close();
             return;
         }
@@ -67,7 +67,7 @@ class ChatListener implements MessageComponentInterface
         $repository = $this->doctrine->getRepository('ChatBundle:User');
         $rooms = $repository->getRoomById($userId);
 
-        foreach($rooms as $roomId => $name){
+        foreach ($rooms as $roomId => $name) {
             $this->rooms[$roomId] = array($conn->resourceId => $conn);
         }
 
@@ -76,13 +76,13 @@ class ChatListener implements MessageComponentInterface
 
     /**
      * @param ConnectionInterface $conn
-     * @param string $json
+     * @param string              $json
      */
     public function onMessage(ConnectionInterface $conn, $json)
     {
         $data = json_decode($json, true);
 
-        if(array_key_exists('event', $data) && array_key_exists('info', $data)){
+        if (array_key_exists('event', $data) && array_key_exists('info', $data)) {
             $info = $data['info'];
             $info['userId'] = $this->getUser($conn)->getId();
 
@@ -98,11 +98,11 @@ class ChatListener implements MessageComponentInterface
      */
     public function onClose(ConnectionInterface $from)
     {
-        foreach($this->rooms as $roomId => &$connections){
+        foreach ($this->rooms as $roomId => &$connections) {
             $key = array_search($from, $connections);
             unset($connections[$key]);
 
-            if(empty($this->rooms[$roomId])){
+            if (empty($this->rooms[$roomId])) {
                 unset($this->rooms[$roomId]);
             }
         }
@@ -113,7 +113,7 @@ class ChatListener implements MessageComponentInterface
 
     /**
      * @param ConnectionInterface $conn
-     * @param \Exception $e
+     * @param \Exception          $e
      */
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
@@ -130,14 +130,14 @@ class ChatListener implements MessageComponentInterface
         $json = json_encode($response->getJsonData());
         $event = $response->header->event;
 
-        if($event == 'error'){
+        if ($event == 'error') {
             $from->send($json);
         } else {
             $roomId = $response->header->roomId;
             $room = $this->rooms[$roomId];
 
-            foreach($room as $connId => $conn){
-                if($conn != $from){
+            foreach ($room as $connId => $conn) {
+                if ($conn != $from) {
                     $conn->send($json);
                 }
             }
@@ -155,11 +155,10 @@ class ChatListener implements MessageComponentInterface
     protected function getUser(ConnectionInterface $conn)
     {
         $securityContext = unserialize($conn->Session->get('_security_main'));
-        if(!empty($securityContext) && method_exists($securityContext, 'getUser')){
+        if (!empty($securityContext) && method_exists($securityContext, 'getUser')) {
             return $securityContext->getUser();
         }
 
         return null;
     }
-
 }

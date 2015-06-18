@@ -28,21 +28,21 @@ class User extends BaseUser
         // your own logic
     }
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Room", mappedBy="users")
-	 **/
-	protected $rooms;
+    /**
+     * @ORM\ManyToMany(targetEntity="Room", mappedBy="users")
+     **/
+    protected $rooms;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Room", mappedBy="moderators")
-	 **/
-	protected $roomsModerator;
+    /**
+     * @ORM\ManyToMany(targetEntity="Room", mappedBy="moderators")
+     **/
+    protected $roomsModerator;
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,7 +75,7 @@ class User extends BaseUser
     /**
      * Get rooms
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRooms()
     {
@@ -108,7 +108,7 @@ class User extends BaseUser
     /**
      * Get roomsModerator
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRoomsModerator()
     {
@@ -118,7 +118,7 @@ class User extends BaseUser
     public function getRoomsAsArray()
     {
         $result = array();
-        foreach($this->rooms as $room){
+        foreach ($this->rooms as $room) {
             $result[$room->getId()] = $room->getName();
         }
 

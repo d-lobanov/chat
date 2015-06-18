@@ -11,6 +11,10 @@ use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
+/**
+ * Class StartChatCommand
+ * @package ChatBundle\Command
+ */
 class StartChatCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -20,6 +24,10 @@ class StartChatCommand extends ContainerAwareCommand
             ->setDescription('Greet someone');
     }
 
+    /**
+     * @param OutputInterface $output
+     * @param $message
+     */
     public function printPositiveMessage(OutputInterface $output, $message)
     {
         $style = new OutputFormatterStyle('white', 'green', array('blink'));
