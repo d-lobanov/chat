@@ -1,6 +1,6 @@
 <?php
 
-namespace ChatBundle\Entity;
+namespace ChatBundle\Model;
 
 use Sonata\DoctrineORMAdminBundle\Model;
 
@@ -46,11 +46,6 @@ class UserAdminManager extends Model\ModelManager
 		$this->getUserManager()->updateUser($user);
 
 		return $user;
-	}
-
-	public function delete($object)
-	{
-		die('delete');
 	}
 
 }

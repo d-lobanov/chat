@@ -1,0 +1,29 @@
+services:
+    chat.component.message:
+        class:    ChatBundle\Service\MessageService
+        calls:
+            - [ setContainer, [@service_container] ]
+
+    chat.listener:
+        class:    ChatBundle\EventListener\ChatListener
+        arguments: [ @chat.component.message, @chat.logger ]
+        calls:
+            - [setDoctrine, [@doctrine]]
+
+    chat.session.provider:
+        class:     Ratchet\Session\SessionProvider
+        arguments:  [@chat.listener, @session.handler]
+
+    chat.message.manager:
+        class:    ChatBundle\Model\MessageManager
+        arguments:  [ @doctrine.orm.entity_manager ]
+
+    chat.logger:
+        class:     Symfony\Bridge\Monolog\Logger
+        arguments: [app]
+        calls:
+            - [pushHandler, [@chat.logger_handler]]
+
+    chat.logger_handler:
+        class:     Monolog\Handler\StreamHandler
+        arguments: [%kernel.logs_dir%/%kernel.environment%.chat.log, 200]

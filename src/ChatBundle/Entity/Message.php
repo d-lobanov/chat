@@ -3,7 +3,7 @@
 namespace ChatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use ChatBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -47,7 +47,7 @@ class Message {
      */
     public function __construct()
     {
-        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     /**
@@ -86,10 +86,10 @@ class Message {
     /**
      * Add user
      *
-     * @param \ChatBundle\Entity\User $user
+     * @param User $user
      * @return Message
      */
-    public function addUser(\ChatBundle\Entity\User $user)
+    public function addUser(User $user)
     {
         $this->user[] = $user;
 
@@ -99,9 +99,9 @@ class Message {
     /**
      * Remove user
      *
-     * @param \ChatBundle\Entity\User $user
+     * @param User $user
      */
-    public function removeUser(\ChatBundle\Entity\User $user)
+    public function removeUser(User $user)
     {
         $this->user->removeElement($user);
     }
@@ -119,10 +119,10 @@ class Message {
     /**
      * Set user
      *
-     * @param \ChatBundle\Entity\User $user
+     * @param User $user
      * @return Message
      */
-    public function setUser(\ChatBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
@@ -132,10 +132,10 @@ class Message {
     /**
      * Set room
      *
-     * @param \ChatBundle\Entity\Room $room
+     * @param Room $room
      * @return Message
      */
-    public function setRoom(\ChatBundle\Entity\Room $room = null)
+    public function setRoom(Room $room = null)
     {
         $this->room = $room;
 
@@ -145,7 +145,7 @@ class Message {
     /**
      * Get room
      *
-     * @return \ChatBundle\Entity\Room 
+     * @return Room 
      */
     public function getRoom()
     {

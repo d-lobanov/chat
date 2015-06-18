@@ -1,6 +1,6 @@
 services:
     chat.admin.user_manager:
-        class: ChatBundle\Entity\UserAdminManager
+        class: ChatBundle\Model\UserAdminManager
         arguments:
             - @doctrine
         calls:

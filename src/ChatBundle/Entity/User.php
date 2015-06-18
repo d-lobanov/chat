@@ -6,7 +6,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="ChatBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="ChatBundle\Entity\Repository\UserRepository")
  * @ORM\Table(name="user")
  * @ORM\AttributeOverrides({
  *      @ORM\AttributeOverride(name="email", column=@ORM\Column(type="string", name="email", length=255, unique=false, nullable=true)),
@@ -52,10 +52,10 @@ class User extends BaseUser
     /**
      * Add rooms
      *
-     * @param \ChatBundle\Entity\Room $rooms
+     * @param Room $rooms
      * @return User
      */
-    public function addRoom(\ChatBundle\Entity\Room $rooms)
+    public function addRoom(Room $rooms)
     {
         $this->rooms[] = $rooms;
 
@@ -65,9 +65,9 @@ class User extends BaseUser
     /**
      * Remove rooms
      *
-     * @param \ChatBundle\Entity\Room $rooms
+     * @param Room $rooms
      */
-    public function removeRoom(\ChatBundle\Entity\Room $rooms)
+    public function removeRoom(Room $rooms)
     {
         $this->rooms->removeElement($rooms);
     }
@@ -85,10 +85,10 @@ class User extends BaseUser
     /**
      * Add roomsModerator
      *
-     * @param \ChatBundle\Entity\Room $roomsModerator
+     * @param Room $roomsModerator
      * @return User
      */
-    public function addRoomsModerator(\ChatBundle\Entity\Room $roomsModerator)
+    public function addRoomsModerator(Room $roomsModerator)
     {
         $this->roomsModerator[] = $roomsModerator;
 
@@ -98,9 +98,9 @@ class User extends BaseUser
     /**
      * Remove roomsModerator
      *
-     * @param \ChatBundle\Entity\Room $roomsModerator
+     * @param Room $roomsModerator
      */
-    public function removeRoomsModerator(\ChatBundle\Entity\Room $roomsModerator)
+    public function removeRoomsModerator(Room $roomsModerator)
     {
         $this->roomsModerator->removeElement($roomsModerator);
     }

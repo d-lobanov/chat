@@ -1,12 +1,12 @@
 <?php
 
-namespace ChatBundle\Component;
+namespace ChatBundle\Service;
 
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use ChatBundle\Helper\MessageHelper;
 
-class MessageComponent extends ContainerAware
+class MessageService extends ContainerAware
 {
     protected $roomId;
     protected $userId;

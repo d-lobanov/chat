@@ -1,9 +1,9 @@
 <?php
 
-namespace ChatBundle\Entity;
+namespace ChatBundle\Model;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use ChatBundle\Entity;
+use ChatBundle\Entity\Message;
 
 class MessageManager
 {

@@ -3,10 +3,10 @@
 namespace ChatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use ChatBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="ChatBundle\Entity\RoomRepository")
+ * @ORM\Entity(repositoryClass="ChatBundle\Entity\Repository\RoomRepository")
  * @ORM\Table(name="room")
  */
 class Room {
@@ -46,7 +46,7 @@ class Room {
      */
     public function __construct()
     {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -85,10 +85,10 @@ class Room {
     /**
      * Add users
      *
-     * @param \ChatBundle\Entity\User $users
+     * @param User $users
      * @return Room
      */
-    public function addUser(\ChatBundle\Entity\User $users)
+    public function addUser(User $users)
     {
         $this->users[] = $users;
 
@@ -98,9 +98,9 @@ class Room {
     /**
      * Remove users
      *
-     * @param \ChatBundle\Entity\User $users
+     * @param User $users
      */
-    public function removeUser(\ChatBundle\Entity\User $users)
+    public function removeUser(User $users)
     {
         $this->users->removeElement($users);
     }
@@ -118,10 +118,10 @@ class Room {
     /**
      * Add moderators
      *
-     * @param \ChatBundle\Entity\User $moderators
+     * @param User $moderators
      * @return Room
      */
-    public function addModerator(\ChatBundle\Entity\User $moderators)
+    public function addModerator(User $moderators)
     {
         $this->moderators[] = $moderators;
 
@@ -131,9 +131,9 @@ class Room {
     /**
      * Remove moderators
      *
-     * @param \ChatBundle\Entity\User $moderators
+     * @param User $moderators
      */
-    public function removeModerator(\ChatBundle\Entity\User $moderators)
+    public function removeModerator(User $moderators)
     {
         $this->moderators->removeElement($moderators);
     }
