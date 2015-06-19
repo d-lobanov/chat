@@ -6,6 +6,10 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use ChatBundle\Helper\MessageHelper;
 
+/**
+ * Class MessageService
+ * @package ChatBundle\Service
+ */
 class MessageService extends ContainerAware
 {
     protected $roomId;
@@ -24,7 +28,7 @@ class MessageService extends ContainerAware
 
     /**
      * @param $event
-     * @param $info
+     * @param array $info
      * @return MessageHelper\Response
      */
     public function onEvent($event, $info)
@@ -67,13 +71,13 @@ class MessageService extends ContainerAware
      */
     protected function doDelete($info)
     {
-        if (array_key_exists('messId', $info) == false) {
+        if (array_key_exists('messageId', $info) == false) {
             return $this->responseError('Invalid data');
         }
-        $messId = $info['messId'];
+        $messageId = $info['messageId'];
 
         $messageManager = $this->container->get('chat.message.manager');
-        if ($messageManager->delete($messId)) {
+        if ($messageManager->delete($messageId)) {
             return $this->responseDelete($info);
         }
 

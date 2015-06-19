@@ -105,12 +105,12 @@ class ChatListener extends ContainerAware implements MessageComponentInterface
     protected function sendResponse(ConnectionInterface $from, MessageHelper\Response $response)
     {
         $json = json_encode($response->getJsonData());
-        $event = $response->header->event;
+        $event = $response->head->event;
 
         if ($event == 'error') {
             $from->send($json);
         } else {
-            $roomId = $response->header->roomId;
+            $roomId = $response->head->roomId;
             $room = $this->rooms[$roomId];
 
             foreach ($room as $connId => $conn) {
@@ -142,7 +142,7 @@ class ChatListener extends ContainerAware implements MessageComponentInterface
      */
     protected function getLogger()
     {
-        return $this->container->get('logger');
+        return $this->container->get('chat.logger');
     }
 
     /**

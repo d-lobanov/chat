@@ -9,16 +9,23 @@ class Response
     /**
      * @var Header
      */
-    public $header;
+    public $head;
 
     public $body;
 
-    public function __construct(Header $header, $body = array())
+    /**
+     * @param Header $head
+     * @param array $body
+     */
+    public function __construct(Header $head, $body = array())
     {
-        $this->header = $header;
+        $this->head = $head;
         $this->body = $body;
     }
 
+    /**
+     * @return array
+     */
     public function getJsonData()
     {
         $var = get_object_vars($this);
