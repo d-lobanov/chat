@@ -12,7 +12,6 @@ var ChatSocket = function (socketUrl) {
         var response = JSON.parse(event.data);
         switch (response.head.event){
             case 'message':
-                console.log('message');
                 this.onEventMessage(response);
                 break;
             case 'delete':
@@ -41,8 +40,14 @@ var ChatSocket = function (socketUrl) {
 
     connection.onEventMessage = function(response) {
         var message = response.body.messTemplate;
-        $('.msg-wrap').append(message);
-        $("#dialog-chat").animate({ scrollTop: $("#dialog-chat")[0].scrollHeight}, 500);
+        var roomId = response.head.roomId;
+        if (roomId == currRoom) {
+            $('.msg-wrap').append(message);
+            $("#dialog-chat").animate({ scrollTop: $("#dialog-chat")[0].scrollHeight}, 500);
+        } else {
+            var selector = '#room_' + roomId + ' svg';
+            $(selector).css('display', '');
+        }
     };
 
     connection.sendObject = function(obj) {
@@ -68,7 +73,7 @@ var socket = new ChatSocket(socketUrl);
 $('form[name=publish]').submit(function(){
     var message = this.message.value;
     if(message.replace(/\s/g, '').length > 0){
-        window.socket.sendMessage(1 , message);
+        window.socket.sendMessage(currRoom , message);
     }
     this.message.value = '';
     return false;
@@ -84,5 +89,10 @@ $('form[name=publish] textarea').keypress(function(event) {
 $(document).delegate('.btn-trash', 'click', function(){
     var messageBlock = this.closest('.media');
     var messageId = messageBlock.getAttribute('id').replace('msg_', '');
-    window.socket.deleteMessage(1, messageId);
+    window.socket.deleteMessage(currRoom, messageId);
+});
+
+$(document).ready(function()
+{
+    $("#dialog-chat").animate({ scrollTop: $("#dialog-chat")[0].scrollHeight}, 0);
 });

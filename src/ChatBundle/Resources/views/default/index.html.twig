@@ -24,9 +24,17 @@
     <div class="container">
         {% include 'ChatBundle:Default:header.html.twig' %}
         <div class="row">
-            {# include 'default/room.html.twig' #}
-            {% include 'ChatBundle:Default:dialog.html.twig' %}
+            <div class="col-lg-offset-1 col-sm-2 col-md-2 col-lg-2">
+                {% include 'ChatBundle:Default:rooms-list.html.twig' with {'rooms': rooms} only %}
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                {% include 'ChatBundle:Default:dialog.html.twig' %}
+            </div>
          </div>
     </div>
+
+    <script>
+        var currRoom = {{ currRoom }};
+    </script>
 
 {% endblock %}
