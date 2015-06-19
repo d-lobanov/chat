@@ -23,6 +23,6 @@ class UserRepository extends EntityRepository
     {
         return $this->getEntityManager()
                 ->find($this->getEntityName(), $userId)
-                ->getRoomsAsArray();
+                ->getAllRoomsAsArray();
     }
 }

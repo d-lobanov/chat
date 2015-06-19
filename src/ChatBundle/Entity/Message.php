@@ -179,10 +179,11 @@ class Message
     public function getInfo()
     {
         $info = array(
-            'userName' => $this->user->getUsername(),
+            'author' => $this->user->getUsername(),
             'time' => $this->created,
             'roomId' => $this->room->getId(),
             'id' => $this->id,
+            'text' => $this->getText()
         );
 
         return $info;
