@@ -1,6 +1,11 @@
-<div class="media msg">
+<div class="media msg" id="msg_{{ id }}">
     <div class="media-body">
-        <small class="pull-right time"> {{ time | default('0') | date('H:i:s') }} </small>
+        <span class="pull-right">
+            <button class="btn btn-xs btn-trash">&#10005;</button>
+            <small class="time"> {{ time | default('0') | date('H:i:s') }} </small>
+        </span>
+
+        </button>
         <h5 class="media-heading"> {{ author | default('unknow') }} </h5>
         <small class="col-lg-10"> {{ text | default('...') }} </small>
     </div>

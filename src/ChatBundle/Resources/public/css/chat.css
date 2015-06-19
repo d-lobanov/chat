@@ -34,6 +34,7 @@ html body{
     /*border-bottom:1px solid #ddd;*/
     margin:0;
 }
+
 .msg-wrap
 {
     padding:10px;
@@ -44,6 +45,13 @@ html body{
 .msg-new
 {
     background-color: rgb(231, 247, 250);
+}
+
+.msg-delete
+{
+    background-color: lightgray;
+    text-align: center;
+    color: gray;
 }
 
 .time
@@ -106,6 +114,16 @@ html body{
 .btn-panel-conversation .btn:first-child
 {
     border-right: 1px solid #ddd;
+}
+
+.btn-trash
+{
+    background: none;
+}
+
+.btn-trash:hover
+{
+    color: red;
 }
 
 .msg-wrap .media-heading
