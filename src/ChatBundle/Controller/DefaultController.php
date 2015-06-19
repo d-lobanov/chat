@@ -27,13 +27,27 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/room", name="room")
+     * @Route("/room/{name}", name="room")
+     * @param string $name
      * @return Response
      */
-    public function roomAction()
+    public function roomAction($name)
     {
-        $messages = [];
-        $rooms = $this->getUser()->getRoomsAsArray();
+        $roomRepository = $this->getDoctrine()->getRepository('ChatBundle:Room');
+        $room = $roomRepository->existsRoomByName($name);
+        if ($room == false) {
+            return new Response('Room not found', 404);
+        }
+
+        $user = $this->getUser();
+        $isUser = $roomRepository->isUser($room->getId(), $user->getId());
+        if ($isUser == false) {
+            return new Response('Access denied', 403);
+        }
+
+        $isModerator = $roomRepository->isModerator($room->getId(), $user->getId());
+        $messages = $roomRepository->getMessagesGroupByDate($room->getId());
+        $rooms = $user->getAllRoomsAsArray();
 
         return $this->render('ChatBundle:Default:index.html.twig', array(
             'messages' => $messages,
