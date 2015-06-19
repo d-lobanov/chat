@@ -1,3 +1,7 @@
-app:
-    resource: "@ChatBundle/Controller/"
-    type:     annotation
+room_show:
+    path:      /room/{name}
+    defaults:  { _controller: ChatBundle:Room:show }
+
+homepage:
+    path:      /
+    defaults:  { _controller: ChatBundle:Room:index }
