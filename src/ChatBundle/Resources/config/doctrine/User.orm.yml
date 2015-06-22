@@ -1,0 +1,29 @@
+ChatBundle\Entity\User:
+  type:  entity
+  table: user
+  repositoryClass: ChatBundle\Entity\Repository\UserRepository
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  manyToMany:
+    rooms:
+      targetEntity: Room
+      mappedBy: users
+    roomsModerator:
+      targetEntity: Room
+      mappedBy: moderators
+  attributeOverride:
+    email:
+      column: email
+      type: string
+      length: 255
+      unique: false
+      nullable: true
+    emailCanonical:
+      column: email_canonical
+      type: string
+      length: 255
+      unique: false
+      nullable: true

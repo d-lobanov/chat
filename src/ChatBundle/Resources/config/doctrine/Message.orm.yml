@@ -1,0 +1,27 @@
+ChatBundle\Entity\Message:
+  type:  entity
+  table: message
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    text:
+      type: text
+      nullable: false
+    created:
+      type: datetimetz
+  manyToOne:
+    user:
+      targetEntity: User
+      inversedBy: messages
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+    room:
+      targetEntity: Room
+      inversedBy: messages
+      joinColumn:
+        name: room_id
+        referencedColumnName: id

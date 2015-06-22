@@ -6,42 +6,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="message")
+ * Class Message
+ * @package ChatBundle\Entity
  */
 class Message
 {
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
     protected $id;
-
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
     protected $text;
-
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
     protected $created;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="messages")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
     protected $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Room", inversedBy="messages")
-     * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
-     */
     protected $room;
-
-
 
     /**
      * Constructor

@@ -1,0 +1,36 @@
+ChatBundle\Entity\Room:
+  type:  entity
+  table: room
+  repositoryClass: ChatBundle\Entity\Repository\RoomRepository
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 100
+  manyToMany:
+    users:
+      targetEntity: User
+      inversedBy: rooms
+      joinTable:
+        name: room_user
+        joinColumns:
+          room_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          user_id:
+            referencedColumnName: id
+    moderators:
+      targetEntity: User
+      inversedBy: roomsModerator
+      joinTable:
+        name: room_moderator
+        joinColumns:
+          room_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          user_id:
+            referencedColumnName: id
