@@ -5,6 +5,10 @@ namespace ChatBundle\Model;
 use Doctrine\Common\Persistence\ObjectManager;
 use ChatBundle\Entity\Message;
 
+/**
+ * Class MessageManager
+ * @package ChatBundle\Model
+ */
 class MessageManager
 {
     /**

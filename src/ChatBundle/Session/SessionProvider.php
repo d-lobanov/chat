@@ -6,13 +6,18 @@ use Ratchet\Session\SessionProvider as RatchetProvider;
 use Ratchet\ConnectionInterface;
 use ChatBundle\Session\Storage\VirtualSessionStorage;
 
+/**
+ * Class SessionProvider
+ * @package ChatBundle\Session
+ */
 class SessionProvider extends RatchetProvider
 {
     /**
      * @param ConnectionInterface $conn
      * @return mixed
      */
-    public function onOpen(ConnectionInterface $conn) {
+    public function onOpen(ConnectionInterface $conn)
+    {
         if (!isset($conn->WebSocket) || null === ($id = $conn->WebSocket->request->getCookie(ini_get('session.name')))) {
             $saveHandler = $this->_null;
             $id = '';

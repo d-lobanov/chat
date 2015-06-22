@@ -27,7 +27,7 @@ class MessageService extends ContainerAware
     }
 
     /**
-     * @param $event
+     * @param string $event
      * @param array $info
      * @return MessageHelper\Response
      */
