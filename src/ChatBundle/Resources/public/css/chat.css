@@ -1,43 +1,12 @@
-html body{
-    height: 100%;
-}
-
-.container
-{
-    margin: 0 auto;
-    max-width: 700px;
-}
-
-.conversation-wrap
-{
-    padding:0;
-    max-height: 400px;
-    overflow: auto;
-}
-.conversation
-{
-    padding:5px;
-    border-bottom:1px solid #ddd;
-    margin:0;
-}
-
-.message-wrap
-{
-    box-shadow: 0 0 3px #ddd;
-    padding:0;
-}
-
 .msg
 {
     padding:5px;
-    /*border-bottom:1px solid #ddd;*/
-    margin:0;
 }
 
 .msg-wrap
 {
     padding:10px;
-    max-height: 400px;
+    height: 600px;
     overflow: auto;
 }
 
@@ -63,56 +32,11 @@ html body{
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
     padding:10px;
-    /*background: #f8f8f8;*/
 }
 
 .send-message
 {
     resize: none;
-}
-
-.highlight
-{
-    background-color: #f7f7f9;
-    border: 1px solid #e1e1e8;
-}
-
-.send-message-btn
-{
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.btn-panel
-{
-    background: white;
-}
-
-.btn-panel .btn
-{
-    color:#b8b8b8;
-    transition: 0.2s all ease-in-out;
-}
-
-.btn-panel .btn:hover
-{
-    color:#666;
-    background: #f8f8f8;
-}
-.btn-panel .btn:active
-{
-    background: #f8f8f8;
-    box-shadow: 0 0 1px #ddd;
-}
-
-.btn-panel-conversation .btn,.btn-panel-msg .btn
-{
-    background: #f8f8f8;
-}
-.btn-panel-conversation .btn:first-child
-{
-    border-right: 1px solid #ddd;
 }
 
 .btn-trash
@@ -125,7 +49,7 @@ html body{
     color: red;
 }
 
-.msg-wrap .media-heading
+.msg-wrap .msg-heading
 {
     color:#003bb3;
     font-weight: 700;
@@ -139,6 +63,11 @@ html body{
     border:none;
     box-shadow: none;
     border-bottom: 1px solid #ddd;
+}
+
+.message-wrap
+{
+    padding-top: 50px;
 }
 
 body::-webkit-scrollbar {

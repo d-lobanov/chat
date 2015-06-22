@@ -51,7 +51,8 @@ class RoomController extends Controller
         return $this->render('ChatBundle:Default:index.html.twig', array(
             'messages' => $messages,
             'rooms' => $rooms,
-            'currRoom' => $roomId
+            'currRoom' => $roomId,
+            'isModerator' => $isModerator
         ));
     }
 

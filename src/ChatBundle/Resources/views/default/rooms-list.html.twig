@@ -1,16 +1,10 @@
-<div class="conversation-wrap">
-
+<ul class="nav nav-sidebar">
     {% for id, name in rooms %}
-        <div class="row media conversation" id="room_{{ id }}">
-            <div class="col-sm-1 col-md-1 col-lg-1">
-                <svg height="10" width="10" style="display: none">
-                    <circle cx="5" cy="5" r="5" fill="orange" />
-                </svg>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-6">
-                <a href="{{ path('room_show', {'name': name}) }}" class="">{{ name }}</a>
-            </div>
-        </div>
+        <li id="room_{{ id }}" {% if id == currRoom %}class="active"{% endif %}>
+            <a href="{{ path('room_show', {'name': name}) }}">
+                {{ name }}
+                <span class="label label-warning">New</span>
+            </a>
+        </li>
     {% endfor %}
-
-</div>
+</ul>

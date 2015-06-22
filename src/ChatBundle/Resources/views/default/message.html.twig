@@ -1,12 +1,13 @@
-<div class="media msg" id="msg_{{ id }}">
-    <div class="media-body">
+<div class="msg" id="msg_{{ id }}">
+    <div class="msg-body">
         <span class="pull-right">
-            <button class="btn btn-xs btn-trash">&#10005;</button>
+            {% if isModerator == true %}
+                <button class="btn btn-xs btn-trash">&#10005;</button>
+            {% endif %}
             <small class="time"> {{ time | default('0') | date('H:i:s') }} </small>
         </span>
 
-        </button>
-        <h5 class="media-heading"> {{ author | default('unknow') }} </h5>
+        <h5 class="msg-heading"> {{ author | default('unknow') }} </h5>
         <small class="col-lg-10"> {{ text | default('...') }} </small>
     </div>
 </div>

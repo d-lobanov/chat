@@ -2,24 +2,22 @@
 
     <div class="msg-wrap" id="dialog-chat">
         {% for date, items in messages %}
-            <div class="alert alert-info msg-date">
+            <div class="msg-date">
                 <strong>{{ date }}</strong>
             </div>
 
             {% for message in items %}
                 {% include 'ChatBundle:Default:message.html.twig'
-                with {'id': message.id, 'text': message.text, 'time': message.created, 'author': message.author} only %}
+                with {'id': message.id, 'text': message.text, 'time': message.created, 'author': message.author, 'isModerator': isModerator} only %}
             {% endfor %}
         {% endfor %}
     </div>
 
     <form name="publish">
         <div class="send-wrap ">
-            <textarea name="message" class="form-control send-message" rows="3" placeholder="Write a reply..."></textarea>
+            <textarea name="message" class="form-control send-message" rows="3" placeholder="Write message..."></textarea>
         </div>
-        <div class="btn-panel">
-            <input type="submit" name="send" class="btn-block" value="Send" >
-        </div>
+        <input type="submit" name="send" class="btn-block btn btn-success" value="Send" >
     </form>
 
 </div>
