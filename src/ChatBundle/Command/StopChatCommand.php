@@ -21,6 +21,11 @@ class StopChatCommand extends ChatCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($this->checkPermission() == false) {
+            $this->printMessage($output, 'Error', "Current user has no permission");
+            return E_ERROR;
+        }
+
         if ($this->existProcess() == false) {
             $this->printMessage($output, 'Error', "Chat already stopped");
             return E_ERROR;

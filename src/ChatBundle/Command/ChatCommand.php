@@ -34,6 +34,11 @@ abstract class ChatCommand extends ContainerAwareCommand
         return false;
     }
 
+    protected function checkPermission()
+    {
+        return is_writable($this->pidFileName) && is_readable($this->pidFileName);
+    }
+
     /**
      * @param OutputInterface $output
      * @param string|array $event

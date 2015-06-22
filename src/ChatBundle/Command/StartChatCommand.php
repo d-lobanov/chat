@@ -24,8 +24,13 @@ class StartChatCommand extends ChatCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($this->checkPermission() == false) {
+            $this->printMessage($output, 'Error', "Current user has no permission");
+            return E_ERROR;
+        }
+
         if ($this->existProcess()) {
-                $this->printMessage($output, 'Error', "Chat already running");
+            $this->printMessage($output, 'Error', "Chat already running");
             return E_ERROR;
         }
 
