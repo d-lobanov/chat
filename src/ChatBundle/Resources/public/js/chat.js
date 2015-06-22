@@ -9,12 +9,16 @@ var ws = new function (){
 
     conn.onEventMessage = function (response) {
         var message = response.body.messTemplate;
+        if(global.isModerator == true) {
+            message = response.body.messModeratorTemplate;
+        }
+
         var roomId = response.head.roomId;
         if (roomId == global.currRoom) {
             $('.msg-wrap').append(message);
             $("#dialog-chat").animate({ scrollTop: $("#dialog-chat")[0].scrollHeight}, 500);
         } else {
-            var selector = '#room_' + roomId + ' svg';
+            var selector = '#room_' + roomId + ' .label';
             $(selector).css('display', '');
         }
     };

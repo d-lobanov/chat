@@ -3,7 +3,7 @@
         <li id="room_{{ id }}" {% if id == currRoom %}class="active"{% endif %}>
             <a href="{{ path('room_show', {'name': name}) }}">
                 {{ name }}
-                <span class="label label-warning">New</span>
+                <span class="label label-warning" style="display: none">New</span>
             </a>
         </li>
     {% endfor %}

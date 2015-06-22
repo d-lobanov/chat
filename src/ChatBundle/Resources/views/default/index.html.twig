@@ -43,7 +43,8 @@
     <script>
         var global = {
             currRoom: {{ currRoom }},
-            socketUrl: 'ws://chat.dev/websocket'
+            socketUrl: 'ws://chat.dev/websocket',
+            isModerator: Boolean({{ isModerator }})
         };
     </script>
 

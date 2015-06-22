@@ -128,10 +128,17 @@ class MessageService extends ContainerAware
     {
         $template = $this->container->get('templating')->renderResponse(
             'ChatBundle:Default:message.html.twig',
-            $info['messInfo'],
+            $info['messInfo'] + array('isModerator' => false),
             null
         );
         $info['messTemplate'] = $template->getContent();
+
+        $template = $this->container->get('templating')->renderResponse(
+            'ChatBundle:Default:message.html.twig',
+            $info['messInfo'] + array('isModerator' => true),
+            null
+        );
+        $info['messModeratorTemplate'] = $template->getContent();
 
         $header = new MessageHelper\Header('message', $this->roomId, $this->userId);
 
