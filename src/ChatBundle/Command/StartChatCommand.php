@@ -2,10 +2,8 @@
 
 namespace ChatBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
@@ -15,30 +13,35 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler;
  * Class StartChatCommand
  * @package ChatBundle\Command
  */
-class StartChatCommand extends ContainerAwareCommand
+class StartChatCommand extends ChatCommand
 {
     protected function configure()
     {
         $this
             ->setName('chat:start')
-            ->setDescription('Greet someone');
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @param $message
-     */
-    public function printPositiveMessage(OutputInterface $output, $message)
-    {
-        $style = new OutputFormatterStyle('white', 'green', array('blink'));
-        $output->getFormatter()->setStyle('start', $style);
-
-        $formatter = $this->getHelper('formatter');
-        $formattedBlock = $formatter->formatBlock($message, 'start');
-        $output->writeln($formattedBlock);
+            ->setDescription('Start chat');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        if ($this->existProcess()) {
+                $this->printMessage($output, 'Error', "Chat already running");
+            return E_ERROR;
+        }
+
+        $pid = pcntl_fork();
+        if ($pid) {
+            file_put_contents($this->pidFileName, $pid);
+            $this->printMessage($output, 'Start', "Process id: {$pid}");
+            return 0;
+        }
+        posix_setsid();
+
+        $this->startChat();
+
+    }
+
+    protected function startChat()
     {
         $sessionProvider = $this->getContainer()->get('chat.session.provider');
 
@@ -51,9 +54,6 @@ class StartChatCommand extends ContainerAwareCommand
             8080
         );
 
-        $this->printPositiveMessage($output, 'Start');
-
         $server->run();
-
     }
 }
